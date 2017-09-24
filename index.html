@@ -10,50 +10,55 @@
 </head>
 
 <body>
-  <div class="container">
+  <div class="container-fluid">
+    <div class="row" id="titleRow">
+      <div class="col-sm-10 col-sm-offset-1">
+        <h1><strong>Star Wars Arena</strong></h1>
+      </div>
+    </div>
     <div class="row" id="charSelectRow">
       <div class="col-sm-1 col-sm-offset-1">
-        <div class="character">
+        <span class="character">
           <button id="luke" class="btn btn-info btn-small select light-side" value="luke"><p>Luke Skywalker</p></button>
-        </div>
+        <span>
       </div>
       <div class="col-sm-1">
-        <div class="character">
+        <span class="character">
           <button id="han" class="btn btn-info btn-small select light-side" value="han"><p>Han Solo</p></button>
-        </div>        
+        </span>        
       </div>
       <div class="col-sm-1">
-        <div class="character">
+        <span class="character">
           <button id="leia" class="btn btn-info btn-small select light-side" value="leia"><p>Leia Organa</p></button>
-        </div>
+        </dspan>
       </div>
       <div class="col-sm-1">
-        <div class="character">
+        <span class="character">
           <button id="chewy" class="btn btn-info btn-small select light-side" value="chewy"><p>Chewbacca</p></button>
-        </div>
+        </span>
       </div>
       <div class="col-sm-2">
         
       </div>
       <div class="col-sm-1">
-        <div class="character">
+        <span class="character">
           <button id="stormtrooper" class="btn btn-danger btn-small select dark-side" value="stormtrooper"><p>Stormtrooper</p></button>
-        </div>
+        </span>
       </div>
       <div class="col-sm-1">
-        <div class="character">
+        <span class="character">
           <button id="boba" class="btn btn-danger btn-small select dark-side" value="boba"><p>Boba Fett</p></button>
-        </div>
+        </span>
       </div>
       <div class="col-sm-1">
-        <div class="character">
+        <span class="character">
           <button id="vader" class="btn btn-danger btn-small select dark-side" value="vader"><p>Darth Vader</p></button>
-        </div>
+        </span>
       </div>
       <div class="col-sm-1">
-        <div class="character">
+        <span class="character">
           <button id="emperor" class="btn btn-danger btn-small select dark-side" value="emperor"><p>Emperor Palpatine</p></button>
-        </div>
+        </span>
       </div>
     </div> <!-- End of Character Select Row -->
     <div class="row" id="messageRow">
@@ -66,6 +71,14 @@
         <h2><span id="alert">Select a character</span></h2>
       </div>
     </div> <!-- End of Message Row -->
+    <div class="row" id="enemiesRow">
+      <div class="col-sm-2 col-sm-offset-1">
+        <h2>Enemies:</h2>
+      </div>
+      <div class="col-sm-7" id="enemiesBox">
+        
+      </div>
+    </div> <!-- End of Enemies Row -->
     <div class="row" id="combatRow">
       <div class="col-sm-offset-1 col-sm-1">
         <button id="attack" class="btn btn-default btn-small">Attack</button>
