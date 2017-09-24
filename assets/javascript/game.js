@@ -8,12 +8,15 @@ var opponentsDefeated = 0;
 var player;
 var opponent;
 var characters = [];
+var idLight = ["#luke", "#han", "#leia", "#chewy"];
+var idDark = ["#stormtrooper", "#boba", "#vader", "#emperor"];
 
 //Sounds declared and sourced here
 
 //Global functions declared here
 function gameOver() {
-
+  gameOver = true;
+  //prompt for reset
 };
 
 function gameReset() {
@@ -33,7 +36,8 @@ function Character(name, alive, life, base, side) {
   this.basePower = base;
   this.power = base;
   this.side = side; //light or dark
-  this.char = this;
+  // this.playerAvatar = playerAvatar;
+  // this.oppAvatat = oppAvatar;
   // this.attackSound = attackSound;
   // this.deathSound = deathSound;
 
@@ -142,10 +146,25 @@ function game() {
 
     //build character object
     //assign player to created object
-    if (charSelect === false) {
+    if (charSelect === false) { //set the player's character
       player = createChar(key);
+      $("#player-avatar").html("<h3>"+player.name+"</h3>");//generate player avatar in arena
       console.log(player);
       charSelect = true;
+      //console.log($(this).attr("id"));
+      if (player.side === "light") {
+        for (var i=0; i<idLight.length; i++) {
+          //console.log(idLight[i]);
+          if ("#" + ($(this).attr("id")) !== idLight[i]) {
+            $(idLight[i]).parent().addClass("invisible");
+          }
+          else if ("#" + ($(this).attr("id")) === idLight[i]) {
+            $(idLight[i]).addClass("disabled");
+            $(idLight[i]).click(false);//doesn't work
+          }
+        }
+      }
+
       //make the buttons for the rest of the players on the same side inactive... can't choose a character from the same side as an opponent;
 
       $("#player").html(player.name);
@@ -153,19 +172,30 @@ function game() {
 
       //the player has chosen a character, so now they must choose an opponent... alert player to pick an opponent
       $("#alert").html("Please select an opponent.");
+      //alert player to pick an opponent
     }
 
-    else if (charSelect && !oppSelect) {
-      opponent = createChar(key);
-      console.log(opponent);
-      oppSelect = true;
-      console.log({oppSelect});
+    else if (charSelect && !oppSelect) {//if the player has chosen a character but no opponent
+      console.log(key, player.name);
+      if(key === player.name) {//not working, values are not equivalent
+        $("#alert").html("You cannot fight yourself.");
+      }
+      else {
+        //process opponent pick
+          //build character object
+          //assign opponent to created object
+        opponent = createChar(key);
+        $("#opp-avatar").html("<h3>"+opponent.name+"</h3>");
+        console.log(opponent);
+        oppSelect = true;
+        console.log({oppSelect});
 
-      $("#opponent").html(opponent.name);
-      //generate opponent character image in arena;
+        $("#opponent").html(opponent.name);
+        //generate opponent character image in arena;
 
-      //make the attack button visible;
-      $("#alert").html("Press the attack button to attack your opponent!");
+        //make the attack button visible;
+        $("#alert").html("Press the attack button to attack your opponent!");
+      }
     }
   });
 
@@ -173,18 +203,21 @@ function game() {
     if (gameOver) {//if the game is over, this button should be hidden & inactive, but just in case...
       $("#alert").html("The game is over. Please click the reset button to restart the game.");
     }
-    else if (!charSelect) {
+    else if (!charSelect) { //If the player has not chosen a character or...
       $("#alert").html("You must select a character first!");
     }
-    else if (!oppSelect) {
+    else if (!oppSelect) { //If the player has not chosen and opponent, this button should be hidden or inactive, but just in case...
       $("#alert").html("You must select an opponent first!");
     }
     else {
       console.log("player attacks!");
+      //player attacks opponent
       player.attack(opponent);
+      //if opponent dies
       if (opponent.life <= 0) {
         opponent.death();
         oppSelect = false;
+        //update opponents defeated
         opponentsDefeated++;
         $("#defeated").html(opponentsDefeated);
         // opponent.alive = false;
@@ -194,8 +227,10 @@ function game() {
         //remove opponent avatar from arena;
       }
       else if(opponent.alive) {
+        //opponent counterattacks player
         console.log("opponent counters!")
         opponent.ctrAttack(player);
+        //if player dies
         if (player.life <= 0) {
           player.death();
           charSelect = false;
@@ -210,35 +245,13 @@ function game() {
     }
   });
 
-  //alert player to pick an opponent
-  //listen for button click on a character
-  //process opponent pick
-    //build character object
-    //assign opponent to created object
-  //generate oponent image
 
-  //player attacks opponent
-    //if opponent dies
-      //update opponents defeated
       //if there are more opponents left
         //player must pick new opponent
       //if there are no more opponents left
         //alert that player has won, and prompt for reset
-
-  //opponent counterattacks player
-    //if player dies
-    //game over & prompt for reset
-
-
 }
 
 game();
-
-
-
-
-
-
-
 
 }); //End of the entire script, beginning with the document.ready
