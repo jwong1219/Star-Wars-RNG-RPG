@@ -53,29 +53,44 @@ function Character(name, htmlID, alive, life, base, side) {
   this.life = life;
   this.basePower = base;
   this.power = base;
+  this.ctrPower = base*1.5;
   this.side = side; //light or dark
+  var that = this;
   // this.playerAvatar = playerAvatar;
-  // this.oppAvatat = oppAvatar;
+  // this.oppAvatar = oppAvatar;
   // this.attackSound = attackSound;
   // this.deathSound = deathSound;
 
-  this.attack = function (enemy) {
+  this.attack = function () {
     //this.attackSound.play();
-    enemy.life -= this.power;
-    $("#alert").html("You have attacked " + opponent.name + " for " + this.power + " damage!");
-    this.power += this.basePower;
+    $("#alert").html("You have attacked " + opponent.name + " for " + that.power + " damage!");
+    // this.power += this.basePower;
     //update enemy life html;
-    console.log(enemy.life, this.power);
+    // console.log(enemy.life, this.power);
   };
 
-  this.ctrAttack = function (enemy) {
-    //this.attackSound.play();
-    enemy.life -= this.basePower;
-    $("#alert").html(opponent.name + " has attacked you for " + this.basePower + " damage!");
-    //update enemy life html;
-    console.log("basePower: " + this.basePower);
-    console.log("enemy.life: " + enemy.life);
+  this.increasePower = function () {
+    that.power += Math.floor(that.basePower * .75);
+    console.log("my new power is " + that.power);
   };
+
+  // setTimeout(function() {that.ctrAttack();}, 3000);
+
+  this.ctrAttack = function () {
+    //this.attackSound.play();
+    // enemy.life -= that.basePower;
+    $("#alert").append("<br>" + opponent.name + " has attacked you for " + that.ctrPower + " damage!");
+
+    //update enemy life html;
+    console.log("basePower: " + that.basePower);
+    // console.log("enemy.life: " + enemy.life);
+  };
+
+  this.takeDmg = function (damage) {
+    that.life -= damage;
+    console.log("my life is: " + that.life);
+    // update avatar's health display
+  }
 
   this.death = function () {
     //this.deathSound.play();
@@ -168,7 +183,10 @@ function game() {
     //assign player to created object
     if (charSelect === false) { //set the player's character
       player = createChar(key);
-      $("#player-avatar").html("<h3>"+player.name+"</h3>");//generate player avatar in arena
+      $("#player").html(player.name);
+      //generate player character avatar in arena;
+      $("#player-avatar").html("<h3>"+player.name+"</h3>");
+      $("#player-health").html(player.life);
       console.log(player);
       charSelect = true;
       //console.log($(this).attr("id"));
@@ -205,9 +223,7 @@ function game() {
         }
         $("#attack").removeClass("btn-default").addClass("btn-danger");
       }
-      $("#player").html(player.name);
-      //generate player character avatar in arena;
-
+      
       //the player has chosen a character, so now they must choose an opponent... alert player to pick an opponent
       $("#alert").html("Please select an opponent.");
       //hide the original charselect row
@@ -225,18 +241,19 @@ function game() {
           //build character object
           //assign opponent to created object
         opponent = createChar(key);
+        $("#opponent").html(opponent.name);
+        //generate opponent character image in arena;
         $("#opp-avatar").html("<h3>"+opponent.name+"</h3>");
+        $("#opp-health").html(opponent.life);
         console.log(opponent);
         oppSelect = true;
         console.log({oppSelect});
-
-        $("#opponent").html(opponent.name);
-        //generate opponent character image in arena;
 
         //make the chosen opponent's button invisible;
         $(this).parent().addClass("invisible");
 
         //make the attack button visible;
+        $("#attack").removeClass("invisible");
         $("#alert").html("Press the attack button to attack your opponent!");
       }
     }
@@ -256,8 +273,14 @@ function game() {
       console.log("player attacks!");
       //player attacks opponent
       player.attack(opponent);
+      opponent.takeDmg(player.power);
+      console.log(opponent.name + "\'s life is now " + opponent.life);
+      //update health meter for opponent
+      $("#opp-health").html(opponent.life);
+      player.increasePower();
       //if opponent dies
       if (opponent.life <= 0) {
+        $("#attack").addClass("invisible");
         opponent.death();
         oppSelect = false;
         //remove opponent avatar from arena;
@@ -282,11 +305,15 @@ function game() {
       }
       else if(opponent.alive) {
         //opponent counterattacks player
-        console.log("opponent counters!")
+        console.log("opponent counters!");
         console.log(opponent.ctrAttack);
         console.log(opponent.basePower);
         // setTimeout(opponent.ctrAttack, 3000, player);
         opponent.ctrAttack(player);
+        player.takeDmg(opponent.ctrPower);
+        console.log(player.name + "\'s life is now " + player.life);
+        // update health meter for player
+        $("#player-health").html(player.life);
         //if player dies
         if (player.life <= 0) {
           player.death();

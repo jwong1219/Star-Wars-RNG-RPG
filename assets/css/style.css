@@ -5,3 +5,11 @@
 button {
   width: auto;
 }
+
+#enemiesBox button {
+  width: auto;
+}
+
+.btn {
+  white-space: normal;
+}
