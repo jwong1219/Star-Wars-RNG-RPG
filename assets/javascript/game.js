@@ -14,10 +14,27 @@ var idDark = ["#stormtrooper", "#boba", "#vader", "#emperor"];
 //Sounds declared and sourced here
 
 //Global functions declared here
-function gameOver() {
+function endGame() {
   gameOver = true;
   //prompt for reset
-};
+  // $("#alert").html("Please refresh the page to play again.");
+}
+
+function NoEnemiesLeft() {
+  var noneRemaining = true;
+  var allEnemies = $("#enemiesBox > span");
+  console.log({allEnemies});
+  for (var i=0; i<allEnemies.length; i++) {
+    if ($(allEnemies[i]).hasClass("dead")){
+      
+    }
+    else {
+      noneRemaining = false;
+    }
+  }
+  console.log({noneRemaining});
+  return noneRemaining;
+}
 
 function gameReset() {
   charSelect = false;
@@ -56,7 +73,8 @@ function Character(name, htmlID, alive, life, base, side) {
     enemy.life -= this.basePower;
     $("#alert").html(opponent.name + " has attacked you for " + this.basePower + " damage!");
     //update enemy life html;
-    console.log(enemy.life);
+    console.log("basePower: " + this.basePower);
+    console.log("enemy.life: " + enemy.life);
   };
 
   this.death = function () {
@@ -64,6 +82,7 @@ function Character(name, htmlID, alive, life, base, side) {
     this.alive = false;
     console.log(this.alive);
     // $("#alert").html("You have defeated " + this.name + "! Please select another opponent");
+
   };
 }
 
@@ -195,6 +214,7 @@ function game() {
       $("#charSelectRow").addClass("invisible");
     }
 
+    //build character object and assign oppoenent to the created object
     else if (charSelect && !oppSelect) {//if the player has chosen a character but no opponent
       console.log(key, player.name);
       if(key === player.htmlID) {
@@ -240,39 +260,49 @@ function game() {
       if (opponent.life <= 0) {
         opponent.death();
         oppSelect = false;
+        //remove opponent avatar from arena;
+        $("#opp-avatar").html("");
         //update opponents defeated
         opponentsDefeated++;
         $("#defeated").html(opponentsDefeated);
         // opponent.alive = false;
         console.log(opponent.alive);
-        $("#alert").html("You have defeated " + opponent.name + "!");
-        console.log("You have defeated " + opponent.name + "!");
-        //remove opponent avatar from arena;
+        $("#" + opponent.htmlID).parent().addClass("dead");
+        //check to see if all enemies are dead
+        //if they are, game over, if not play continues
+        if(NoEnemiesLeft()) {
+          endGame();
+          $("#alert").html("You have defeated your opponents! <br>You Win! <br> Refresh the page to play again!");
+        }
+        else {
+          $("#alert").html("You have defeated " + opponent.name + "! <br>Choose your next opponent!");
+          console.log("You have defeated " + opponent.name + "!");
+        }
+        
       }
       else if(opponent.alive) {
         //opponent counterattacks player
         console.log("opponent counters!")
+        console.log(opponent.ctrAttack);
+        console.log(opponent.basePower);
+        // setTimeout(opponent.ctrAttack, 3000, player);
         opponent.ctrAttack(player);
         //if player dies
         if (player.life <= 0) {
           player.death();
           charSelect = false;
+          //remove player avatar from arena;
+          $("#player-avatar").html("");
           // player.alive = false;
           console.log(player.alive);
+          endGame();
           $("#alert").html("You have been defeated! <br> Game Over!");
           console.log("You have been defeated! <br> Game Over!");
-          //remove player avatar from arena;
-          //gameOver();
         }
       }
     }
   });
 
-
-      //if there are more opponents left
-        //player must pick new opponent
-      //if there are no more opponents left
-        //alert that player has won, and prompt for reset
 }
 
 game();
