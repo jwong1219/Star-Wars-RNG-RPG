@@ -13,51 +13,60 @@
   <div class="container-fluid">
     <div class="row" id="titleRow">
       <div class="col-sm-10 col-sm-offset-1">
-        <h1><strong>Star Wars Arena</strong></h1>
+        <img class="title" src="assets/images/star_wars_title.png" width="25%">
+        <h1 class="title"><strong> Arena</strong></h1>
       </div>
     </div>
     <div class="row" id="charSelectRow">
-      <div class="col-sm-1 text-center col-sm-offset-1 ">
+      <div class="col-sm-1 text-center select col-sm-offset-1 ">
         <span class="character">
-          <button id="luke" class="btn btn-info btn-small select light-side" value="luke">Luke Skywalker</button>
-        <span>
+          <img src="assets/images/luke.jpg" height="100%" width="100%" id="luke" class="btn  select light-side" value="luke">
+          <!-- <button id="luke" class="btn btn-info btn-small select light-side" value="luke">Luke Skywalker</button> -->
+        </span>
       </div>
-      <div class="col-sm-1 text-center">
+      <div class="col-sm-1 text-center select"> 
         <span class="character">
-          <button id="han" class="btn btn-info btn-small select light-side" value="han">Han Solo</button>
-        </span>        
+          <img src="assets/images/han-solo.png" height="100%" width="100%" id="han" class="btn  select light-side" value="han">
+          <!-- <button id="han" class="btn btn-info btn-small select light-side" value="han">Han Solo</button> -->
+        </span>
       </div>
-      <div class="col-sm-1 text-center">
+      <div class="col-sm-1 text-center select">
         <span class="character">
-          <button id="leia" class="btn btn-info btn-small select light-side" value="leia">Leia Organa</button>
-        </dspan>
+          <img src="assets/images/leia-organa.jpeg" height="100%" width="100%" id="leia" class="btn  select light-side" value="leia">
+          <!-- <button id="leia" class="btn btn-info btn-small select light-side" value="leia">Leia Organa</button> -->
+        </span>
       </div>
-      <div class="col-sm-1 text-center">
+      <div class="col-sm-1 text-center select">
         <span class="character">
-          <button id="chewy" class="btn btn-info btn-small select light-side" value="chewy">Chewbacca</button>
+          <img src="assets/images/chewbacca.jpeg" height="100%" width="100%" id="chewy" class="btn  select light-side" value="chewy">
+          <!-- <button id="chewy" class="btn btn-info btn-small select light-side" value="chewy">Chewbacca</button> -->
         </span>
       </div>
       <div class="col-sm-2">
         
       </div>
-      <div class="col-sm-1 text-center">
+      <div class="col-sm-1 text-center select">
         <span class="character">
-          <button id="stormtrooper" class="btn btn-danger btn-small select dark-side" value="stormtrooper">Stormtrooper</button>
+          <img src="assets/images/stormtrooper.jpeg" height="100%" width="100%" id="stormtrooper" class="btn  select dark-side" value="stormtrooper">
+          <!-- <button id="stormtrooper" class="btn btn-danger btn-small select dark-side" value="stormtrooper">Stormtrooper</button> -->
         </span>
       </div>
-      <div class="col-sm-1 text-center">
+      <div class="col-sm-1 text-center select">
         <span class="character">
-          <button id="boba" class="btn btn-danger btn-small select dark-side" value="boba">Boba Fett</button>
+          <img src="assets/images/boba-fett.jpeg" height="100%" width="100%" id="boba" class="btn  select dark-side" value="boba">
+          <!-- <button id="boba" class="btn btn-danger btn-small select dark-side" value="boba">Boba Fett</button> -->
         </span>
       </div>
-      <div class="col-sm-1 text-center">
+      <div class="col-sm-1 text-center select">
         <span class="character">
-          <button id="vader" class="btn btn-danger btn-small select dark-side" value="vader">Darth Vader</button>
+          <img src="assets/images/vader.jpeg" height="100%" width="100%" id="vader" class="btn  select dark-side" value="vader">
+          <!-- <button id="vader" class="btn btn-danger btn-small select dark-side" value="vader">Darth Vader</button> -->
         </span>
       </div>
-      <div class="col-sm-1 text-center">
+      <div class="col-sm-1 text-center select">
         <span class="character">
-          <button id="emperor" class="btn btn-danger btn-small select dark-side" value="emperor">Emperor Palpatine</button>
+          <img src="assets/images/palpatine.jpeg" height="100%" width="100%" id="emperor" class="btn  select dark-side" value="emperor">
+          <!-- <button id="emperor" class="btn btn-danger btn-small select dark-side" value="emperor">Emperor Palpatine</button> -->
         </span>
       </div>
     </div> <!-- End of Character Select Row -->
@@ -71,7 +80,7 @@
         <h2><span id="alert">Select a character</span></h2>
       </div>
     </div> <!-- End of Message Row -->
-    <div class="row" id="enemiesRow">
+    <div class="row invisible" id="enemiesRow">
       <div class="col-sm-2 col-sm-offset-1">
         <h2>Enemies:</h2>
       </div>
@@ -81,24 +90,27 @@
     </div> <!-- End of Enemies Row -->
     <div class="row" id="combatRow">
       <div class="col-sm-offset-1 col-sm-1">
-        <button id="attack" class="btn btn-default btn-small invisible">Attack</button>
+        
         
       </div>
       <div class="col-sm-9">
         <div id="arena">
-          <div class="col-sm-5">
+          <div class="col-sm-5 invisible">
             <div class="avatar" id="player-avatar">
               
             </div>
-            <div class="health-meter">
+            <div class="health-meter text-center">
               <p>Health: <span id="player-health"></span></p>
             </div>
           </div>
-          <div class="col-sm-offset-2 col-sm-5">
+          <div class="col-sm-2">
+            <button id="attack" class="btn btn-default btn-small invisible bottom-align">Attack</button>
+          </div>
+          <div class="col-sm-5 invisible">
             <div class="avatar" id="opp-avatar">
               
             </div>
-            <div class="health-meter">
+            <div class="health-meter text-center">
               <p>Health: <span id="opp-health"></span></p>
             </div>
           </div>

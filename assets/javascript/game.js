@@ -46,7 +46,7 @@ function gameReset() {
 }
 
 //Character object constructor declared here
-function Character(name, htmlID, alive, life, base, side) {
+function Character(name, htmlID, alive, life, base, side, imgHTML) {
   this.name = name;
   this.htmlID = htmlID
   this.alive = alive;
@@ -55,6 +55,7 @@ function Character(name, htmlID, alive, life, base, side) {
   this.power = base;
   this.ctrPower = base*1.5;
   this.side = side; //light or dark
+  this.imgHTML = imgHTML;
   var that = this;
   // this.playerAvatar = playerAvatar;
   // this.oppAvatar = oppAvatar;
@@ -104,49 +105,49 @@ function Character(name, htmlID, alive, life, base, side) {
 function createChar(name) {
   switch (name) {
     case "luke" :
-      var luke = new Character("Luke", "luke", true, 100, 9, "light");
+      var luke = new Character("Luke", "luke", true, 100, 9, "light", '<img src="assets/images/luke.jpg" height="100%" width="100%">');
       console.log(luke);
       charSelect = true;
       return luke;
       break;
     case "han" :
-      var han = new Character("Han Solo", "han", true, 120, 7, "light");
+      var han = new Character("Han Solo", "han", true, 120, 7, "light", '<img src="assets/images/han-solo.png" height="100%" width="100%">');
       console.log(han);
       charSelect = true;
       return han;
       break;
     case "leia" :
-      var leia = new Character("Leia", "leia", true, 100, 6, "light");
+      var leia = new Character("Leia", "leia", true, 100, 6, "light", '<img src="assets/images/leia-organa.jpeg" height="100%" width="100%">');
       console.log(leia);
       charSelect = true;
       return leia;
       break;
     case "chewy" :
-      var chewy = new Character("Chewbacca", "chewy", true, 150, 8, "light");
+      var chewy = new Character("Chewbacca", "chewy", true, 150, 8, "light", '<img src="assets/images/chewbacca.jpeg" height="100%" width="100%">');
       console.log(chewy);
       charSelect = true;
       return chewy;
       break;
     case "stormtrooper" :
-      var stormy = new Character("Stormtrooper", "stormtrooper", true, 90, 6, "dark");
+      var stormy = new Character("Stormtrooper", "stormtrooper", true, 90, 6, "dark", '<img src="assets/images/stormtrooper.jpeg" height="100%" width="100%">');
       console.log(stormy);
       charSelect = true;
       return stormy;
       break;
     case "boba" :
-      var boba = new Character("Boba Fett", "boba", true, 110, 8, "dark");
+      var boba = new Character("Boba Fett", "boba", true, 110, 8, "dark", '<img src="assets/images/boba-fett.jpeg" height="100%" width="100%">');
       console.log(boba);
       charSelect = true;
       return boba;
       break;
     case "vader" :
-      var vader = new Character("Darth Vader", "vader", true, 120, 8, "dark");
+      var vader = new Character("Darth Vader", "vader", true, 120, 8, "dark", '<img src="assets/images/vader.jpeg" height="100%" width="100%">');
       console.log(vader);
       charSelect = true;
       return vader;
       break;
     case "emperor" :
-      var palps = new Character("Emperor Palpatine", "emperor", true, 80, 10, "dark");
+      var palps = new Character("Emperor Palpatine", "emperor", true, 80, 10, "dark", '<img src="assets/images/palpatine.jpeg" height="100%" width="100%">');
       console.log(palps);
       charSelect = true;
       return palps;
@@ -179,18 +180,48 @@ function game() {
       return;
     }
 
+    //build character object and assign oppoenent to the created object
+    if (charSelect && !oppSelect) {//if the player has chosen a character but no opponent
+      console.log(key, player.name);
+      if(key === player.htmlID) {
+        $("#alert").html("You cannot fight yourself.");
+      }
+      else {
+        //process opponent pick
+          //build character object
+          //assign opponent to created object
+        opponent = createChar(key);
+        $("#opponent").html(opponent.name);
+        //generate opponent character image in arena;
+        $("#opp-avatar").parent().removeClass("invisible");
+        $("#opp-avatar").html(opponent.imgHTML);
+        $("#opp-health").html(opponent.life);
+        console.log(opponent);
+        oppSelect = true;
+        console.log({oppSelect});
+
+        //make the chosen opponent's button invisible;
+        $(this).parent().addClass("invisible");
+
+        //make the attack button visible;
+        $("#attack").removeClass("invisible");
+        $("#alert").html("Press the attack button to attack your opponent!");
+      }
+    }
+
     //build character object
     //assign player to created object
-    if (charSelect === false) { //set the player's character
+    else if (charSelect === false) { //set the player's character
       player = createChar(key);
       $("#player").html(player.name);
       //generate player character avatar in arena;
-      $("#player-avatar").html("<h3>"+player.name+"</h3>");
+      $("#player-avatar").parent().removeClass("invisible");
+      $("#player-avatar").html(player.imgHTML);
       $("#player-health").html(player.life);
       console.log(player);
       charSelect = true;
       //console.log($(this).attr("id"));
-
+      $("#enemiesRow").removeClass("invisible");
       //make the buttons for the rest of the players on the same side inactive... can't choose a character from the same side as an opponent;
       if (player.side === "light") {
         console.log(player.side);
@@ -206,6 +237,7 @@ function game() {
           }*/
           //also move the buttons for the enemies from the charselect row to the enemies row
           (($(idDark[i])).parent()).detach().appendTo("#enemiesBox");
+          $(idDark[i]).addClass("enemyRow");
         }
         $("#attack").removeClass("btn-default").addClass("btn-info");
       }
@@ -220,6 +252,7 @@ function game() {
             $(idDark[i]).click(false);//doesn't work
           }
           (($(idLight[i])).parent()).detach().appendTo("#enemiesBox");
+          $(idLight[i]).addClass("enemyRow");
         }
         $("#attack").removeClass("btn-default").addClass("btn-danger");
       }
@@ -230,33 +263,7 @@ function game() {
       $("#charSelectRow").addClass("invisible");
     }
 
-    //build character object and assign oppoenent to the created object
-    else if (charSelect && !oppSelect) {//if the player has chosen a character but no opponent
-      console.log(key, player.name);
-      if(key === player.htmlID) {
-        $("#alert").html("You cannot fight yourself.");
-      }
-      else {
-        //process opponent pick
-          //build character object
-          //assign opponent to created object
-        opponent = createChar(key);
-        $("#opponent").html(opponent.name);
-        //generate opponent character image in arena;
-        $("#opp-avatar").html("<h3>"+opponent.name+"</h3>");
-        $("#opp-health").html(opponent.life);
-        console.log(opponent);
-        oppSelect = true;
-        console.log({oppSelect});
-
-        //make the chosen opponent's button invisible;
-        $(this).parent().addClass("invisible");
-
-        //make the attack button visible;
-        $("#attack").removeClass("invisible");
-        $("#alert").html("Press the attack button to attack your opponent!");
-      }
-    }
+    
   });
 
   $("#attack").on("click", function() {
@@ -285,6 +292,7 @@ function game() {
         oppSelect = false;
         //remove opponent avatar from arena;
         $("#opp-avatar").html("");
+        $("#opp-avatar").parent().addClass("invisible");
         //update opponents defeated
         opponentsDefeated++;
         $("#defeated").html(opponentsDefeated);

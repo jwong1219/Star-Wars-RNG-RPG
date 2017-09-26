@@ -1,6 +1,6 @@
-* {
+/** {
   border: 1px solid darkgrey;
-}
+}*/
 
 button {
   width: auto;
@@ -12,4 +12,46 @@ button {
 
 .btn {
   white-space: normal;
+}
+
+button {
+  width: 100%;
+  padding: 0 !important;
+  height: 45px;
+}
+
+.select {
+  padding: 0;
+}
+
+.enemyRow{
+  width: 24%;
+}
+
+#attack:parent {
+  padding: 0;
+}
+
+.bottom-align {
+  margin-top: 115%;
+  margin-bottom: auto;
+}
+
+body {
+  background-image: url("../images/hoth-hangar.jpg");
+  background-position: bottom;
+  background-attachment: fixed;
+}
+.title {
+  display: inline;
+}
+
+h1, h2, h3, h4, p {
+  color: #fee73b;
+}
+
+h1 {
+  font-size: 84px;
+  position: absolute;
+  bottom: 10%;
 }
