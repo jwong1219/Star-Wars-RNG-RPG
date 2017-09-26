@@ -260,7 +260,7 @@ function game() {
       //the player has chosen a character, so now they must choose an opponent... alert player to pick an opponent
       $("#alert").html("Please select an opponent.");
       //hide the original charselect row
-      $("#charSelectRow").addClass("invisible");
+      $("#charSelectRow").addClass("hidden");
     }
 
     
